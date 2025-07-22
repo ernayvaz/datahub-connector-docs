@@ -1,0 +1,47 @@
+{# ---------- Raynet Connector Doc Template ---------- #}
+# Configuring the {{ displayName }} Connector
+
+## Prerequisites
+{% for step in prereq_steps %}
+{{ loop.index }}. {{ step }}
+{% endfor %}
+{% if prereq_steps|length == 0 %}
+> _No special prerequisites._
+{% endif %}
+
+## Connector Setup
+Below table lists the fields shown in the connector configuration form.
+
+| Field | Description |
+|-------|-------------|
+{% for field in setup_fields %}
+| **{{ field.name }}** | {{ field.description }} |
+{% endfor %}
+
+## Connector Parameters
+
+### Authentication
+| Technical Name | Type | Default | Example | Description |
+|--------------- |------|---------|---------|-------------|
+{% for p in auth_params %}
+| {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description }} |
+{% endfor %}
+
+### Task Parameters
+| Technical Name | Type | Default | Example | Description |
+|--------------- |------|---------|---------|-------------|
+{% for p in task_params %}
+| {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description }} |
+{% endfor %}
+
+## Extracted Data
+### Tables
+| Table | Column | Data Type |
+|-------|--------|-----------|
+{% for t in tables %}
+| **{{ t.name }}** |  |  |
+{%   for col in t.columns %}
+|  | {{ col.name }} | {{ col.type }} |
+{%   endfor %}
+{% endfor %}
+*Generated automatically — {{ generation_ts }}*
