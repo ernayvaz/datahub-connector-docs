@@ -1,4 +1,4 @@
-displayName: Demo CRM  2
+displayName: Demo CRM 2
 prereq_steps:
   - Sign in to Demo CRM and create an API key.
   - Enable API access under Settings ▸ Integrations.
