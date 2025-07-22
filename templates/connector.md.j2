@@ -17,6 +17,9 @@ Below table lists the fields shown in the connector configuration form.
 {% for field in setup_fields %}
 | **{{ field.name }}** | {{ field.description }} |
 {% endfor %}
+{% if setup_fields|length == 0 %}
+| _(none)_ | |
+{% endif %}
 
 ## Connector Parameters
 
@@ -26,6 +29,9 @@ Below table lists the fields shown in the connector configuration form.
 {% for p in auth_params %}
 | {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description }} |
 {% endfor %}
+{% if auth_params|length == 0 %}
+| _(none)_ | | | | |
+{% endif %}
 
 ### Task Parameters
 | Technical Name | Type | Default | Example | Description |
@@ -33,6 +39,9 @@ Below table lists the fields shown in the connector configuration form.
 {% for p in task_params %}
 | {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description }} |
 {% endfor %}
+{% if task_params|length == 0 %}
+| _(none)_ | | | | |
+{% endif %}
 
 ## Extracted Data
 ### Tables
@@ -44,4 +53,8 @@ Below table lists the fields shown in the connector configuration form.
 |  | {{ col.name }} | {{ col.type }} |
 {%   endfor %}
 {% endfor %}
+{% if tables|length == 0 %}
+| _(no tables)_ | | |
+{% endif %}
+
 *Generated automatically — {{ generation_ts }}*
