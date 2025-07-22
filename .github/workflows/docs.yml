@@ -1,0 +1,49 @@
+name: Build & Deploy Docs
+
+on:
+  push:
+    branches: [ main ]            # Change according to your major
+    paths:
+      - "manifests/**"            # When the manifest is added
+      - "templates/**"
+      - "scripts/**"
+      - "mkdocs.yml"
+  workflow_dispatch:              # Manual trigger button
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write             # to write to the gh-pages branch
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Generate Markdown from manifests
+        run: |
+          mkdir -p docs/connectors
+          for file in manifests/*.{json,yaml,yml}; do
+            [ -e "$file" ] || continue         # skip if folder is empty
+            base=$(basename "$file")
+            out="docs/connectors/${base%.*}.md"
+            python scripts/generate_doc.py "$file" "$out"
+          done
+
+      - name: Build MkDocs site
+        run: |
+          mkdocs build --strict
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
