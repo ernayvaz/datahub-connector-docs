@@ -1,0 +1,14 @@
+displayName: DemoCRM
+prereq_steps:
+  - Create an API key in DemoCRM.
+setup_fields:
+  - {name: API Key, description: Token for requests}
+auth_params:
+  - {name: api_key, type: String, default: "", example: "abc123",
+     description: API key obtained from step 1}
+task_params: []
+tables:
+  - name: customers
+    columns:
+      - {name: id, type: String}
+      - {name: email, type: String}
