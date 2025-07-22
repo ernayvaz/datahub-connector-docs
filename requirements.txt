@@ -1,1 +1,4 @@
-jinja2\npyyaml\nmkdocs-material\n
+jinja2
+pyyaml
+mkdocs
+mkdocs-material
