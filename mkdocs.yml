@@ -2,10 +2,6 @@ site_name: Data Hub Connector Docs
 theme:
   name: material
   language: en
-nav:
-  - Home: index.md         # first demo page
-  - Connectors:            # according to the manifests we will extend the nav in CI
-      - Introduction: intro.md
 plugins:
   - search
   - awesome-pages
