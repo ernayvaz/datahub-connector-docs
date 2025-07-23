@@ -49,7 +49,8 @@ Below table lists the fields shown in the connector configuration form.
 |-------|--------|-----------|
 {% for t in tables -%}
 | **{{ t.name }}** | - | - |
-{%-   for col in t.columns -%}
+
+{%- for col in t.columns -%}
 |  | {{ col.name }} | {{ col.type }} |
 {%-   endfor %}
 {%- endfor %}
