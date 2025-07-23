@@ -2,9 +2,9 @@
 # Configuring the {{ displayName }} Connector
 
 ## Prerequisites
-{% for step in prereq_steps %}
+{% for step in prereq_steps -%}
 {{ loop.index }}. {{ step }}
-{% endfor %}
+{%- endfor %}
 {% if prereq_steps|length == 0 %}
 > _No special prerequisites._
 {% endif %}
@@ -14,9 +14,9 @@ Below table lists the fields shown in the connector configuration form.
 
 | Field | Description |
 |-------|-------------|
-{% for field in setup_fields %}
+{% for field in setup_fields -%}
 | **{{ field.name }}** | {{ field.description }} |
-{% endfor %}
+{%- endfor %}
 {% if setup_fields|length == 0 %}
 | _(none)_ | |
 {% endif %}
@@ -25,20 +25,20 @@ Below table lists the fields shown in the connector configuration form.
 
 ### Authentication
 | Technical Name | Type | Default | Example | Description |
-|--------------- |------|---------|---------|-------------|
-{% for p in auth_params %}
+|---------------|------|---------|---------|-------------|
+{% for p in auth_params -%}
 | {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description }} |
-{% endfor %}
+{%- endfor %}
 {% if auth_params|length == 0 %}
 | _(none)_ | | | | |
 {% endif %}
 
 ### Task Parameters
 | Technical Name | Type | Default | Example | Description |
-|--------------- |------|---------|---------|-------------|
-{% for p in task_params %}
+|---------------|------|---------|---------|-------------|
+{% for p in task_params -%}
 | {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description }} |
-{% endfor %}
+{%- endfor %}
 {% if task_params|length == 0 %}
 | _(none)_ | | | | |
 {% endif %}
@@ -47,12 +47,12 @@ Below table lists the fields shown in the connector configuration form.
 ### Tables
 | Table | Column | Data Type |
 |-------|--------|-----------|
-{% for t in tables %}
+{% for t in tables -%}
 | **{{ t.name }}** |  |  |
-{%   for col in t.columns %}
+{%-   for col in t.columns -%}
 |  | {{ col.name }} | {{ col.type }} |
-{%   endfor %}
-{% endfor %}
+{%-   endfor %}
+{%- endfor %}
 {% if tables|length == 0 %}
 | _(no tables)_ | | |
 {% endif %}
