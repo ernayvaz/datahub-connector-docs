@@ -34,14 +34,13 @@ Below table lists the fields shown in the connector configuration form.
 | _(none)_ | | | | |
 {% endif %}
 
+{% if task_params %}
 ### Task Parameters
 | Technical Name | Type | Default | Example | Description |
 |---------------|------|---------|---------|-------------|
-{% for p in task_params -%}
+{%   for p in task_params -%}
 | {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description }} |
-{%- endfor %}
-{% if task_params|length == 0 %}
-| _(none)_ | | | | |
+{%-   endfor %}
 {% endif %}
 
 ## Extracted Data
@@ -50,9 +49,7 @@ Below table lists the fields shown in the connector configuration form.
 |-------|--------|-----------|
 {% for t in tables -%}
 | **{{ t.name }}** | - | - |
-
-{{ LB }}            {# ▼ new, completely blank line #}
-{%- for col in t.columns -%}
+{%- for col in t.columns %}
 |  | {{ col.name }} | {{ col.type }} |
 {%- endfor %}
 {%- endfor %}
