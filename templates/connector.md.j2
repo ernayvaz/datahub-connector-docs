@@ -3,7 +3,7 @@
 
 ## Prerequisites
 {% for step in prereq_steps -%}
-{{ loop.index }}. {{ step }}
+{{ loop.index }}. {{ step }}{{ LB }}
 {%- endfor %}
 {% if prereq_steps|length == 0 %}
 > _No special prerequisites._
