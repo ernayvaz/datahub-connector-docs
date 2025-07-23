@@ -8,4 +8,3 @@ nav:
       - Introduction: intro.md
 plugins:
   - search
-  - awesome-pages
