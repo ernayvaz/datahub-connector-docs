@@ -393,12 +393,7 @@
 <h1 id="configuring-the-demo-crm-2-connector">Configuring the Demo CRM 2 Connector</h1>
 <h2 id="prerequisites">Prerequisites</h2>
 <ol>
-<li>
-<p>Sign in to Demo CRM and create an API key.</p>
-</li>
-<li>
-<p>Enable API access under Settings ▸ Integrations.</p>
-</li>
+<li>Sign in to Demo CRM and create an API key.2. Enable API access under Settings ▸ Integrations.</li>
 </ol>
 <h2 id="connector-setup">Connector Setup</h2>
 <p>Below table lists the fields shown in the connector configuration form.</p>
@@ -411,12 +406,11 @@
 </thead>
 <tbody>
 <tr>
-<td></td>
-<td></td>
+<td><strong>API Key</strong></td>
+<td>Token copied from Demo CRM.</td>
 </tr>
 </tbody>
 </table>
-<p>| <strong>API Key</strong> | Token copied from Demo CRM. |</p>
 <h2 id="connector-parameters">Connector Parameters</h2>
 <h3 id="authentication">Authentication</h3>
 <table>
@@ -431,15 +425,14 @@
 </thead>
 <tbody>
 <tr>
+<td>api_key</td>
+<td>String</td>
 <td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>abc123</td>
+<td>API key generated in prerequisites.</td>
 </tr>
 </tbody>
 </table>
-<p>| api_key | String |  | abc123 | API key generated in prerequisites. |</p>
 <h3 id="task-parameters">Task Parameters</h3>
 <table>
 <thead>
@@ -453,15 +446,14 @@
 </thead>
 <tbody>
 <tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
+<td>timeout</td>
+<td>Integer</td>
+<td>10000</td>
+<td>15000</td>
+<td>Request timeout in milliseconds.</td>
 </tr>
 </tbody>
 </table>
-<p>| timeout | Integer | 10000 | 15000 | Request timeout in milliseconds. |</p>
 <h2 id="extracted-data">Extracted Data</h2>
 <h3 id="tables">Tables</h3>
 <table>
@@ -474,17 +466,13 @@
 </thead>
 <tbody>
 <tr>
-<td></td>
+<td><strong>customers</strong></td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p>| <strong>customers</strong> |  |  |</p>
-<p>|  | id | String |</p>
-<p>|  | email | String |</p>
-<p>|  | created_at | Timestamp |</p>
-<p><em>Generated automatically — 2025-07-23T06:49:33.919681Z</em></p>
+<p><em>Generated automatically — 2025-07-23T07:10:20.279322Z</em></p>
 
 
 
