@@ -12,3 +12,5 @@ tables:
     columns:
       - {name: id, type: String}
       - {name: email, type: String}
+# touch to rebuild
+
