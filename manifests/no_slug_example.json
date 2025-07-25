@@ -1,0 +1,28 @@
+{
+  "displayName": "My Fancy Connector",
+  "prereq_steps": [
+    "Create an API key in the target system."
+  ],
+  "setup_fields": [
+    { "name": "API Key", "description": "Token for requests" }
+  ],
+  "auth_params": [
+    {
+      "name": "api_token",
+      "type": "String",
+      "default": "",
+      "example": "xyz-999",
+      "description": "Token created in prerequisites"
+    }
+  ],
+  "task_params": [],
+  "tables": [
+    {
+      "name": "items",
+      "columns": [
+        { "name": "id", "type": "String" },
+        { "name": "name", "type": "String" }
+      ]
+    }
+  ]
+}
