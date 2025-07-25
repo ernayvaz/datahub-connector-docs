@@ -1,0 +1,26 @@
+slug: demo_crm_3
+displayName: Demo CRM 3
+prereq_steps:
+  - Sign in to Demo CRM and create an API key.
+  - Enable API access under Settings ▸ Integrations.
+setup_fields:
+  - name: API Key
+    description: Token copied from Demo CRM.
+auth_params:
+  - name: api_key
+    type: String
+    default: ""
+    example: abc123
+    description: API key generated in prerequisites.
+task_params:
+  - name: timeout
+    type: Integer
+    default: 10000
+    example: 15000
+    description: Request timeout in milliseconds.
+tables:
+  - name: customers
+    columns:
+      - {name: id,         type: String}
+      - {name: email,      type: String}
+      - {name: created_at, type: Timestamp}
