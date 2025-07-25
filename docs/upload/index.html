@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      /* Raynet-ish palette (yaklaşık) */
+      /* Raynet-ish palette (approx) */
       --raynet-navy: #162B3C;
       --raynet-navy-2: #1f3c52;
       --raynet-bg: #f7f9fc;
@@ -94,7 +94,7 @@
       border: 3px dashed var(--accent);
       border-radius: 12px;
       background: #fff;
-      min-height: 35vh; /* ~ ekranın 1/3’ü */
+      min-height: 35vh; /* ~ 1/3 of page height */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -110,7 +110,7 @@
     }
     #dropzone h2 {
       margin: 0 0 .5rem;
-      font-size: 2rem;            /* BÜYÜTTÜK */
+      font-size: 2rem;  /* BIG */
       font-weight: 700;
       color: var(--raynet-navy);
     }
@@ -239,23 +239,48 @@
   let fileName     = null;
   let loggedIn     = false;
 
+  // --- login-aware UI controller
   function setLoggedInUI(isLoggedIn) {
     loggedIn = isLoggedIn;
     loginBtn.classList.toggle('hidden', isLoggedIn);
     logoutBtn.classList.toggle('hidden', !isLoggedIn);
-    uploadBtn.disabled = !isLoggedIn || !selectedFile;
+
+    // Enable upload only if both 'loggedIn' and 'file selected'
+    const canUpload = isLoggedIn && !!selectedFile;
+    uploadBtn.disabled = !canUpload;
   }
+
   setLoggedInUI(false);
+
+  // ---- Check login on page load (Solution B)
+  (async function checkLogin() {
+    try {
+      const r = await fetch(WORKER_BASE_URL + "/login-status", {
+        method: "GET",
+        credentials: "include"
+      });
+      setLoggedInUI(r.ok);
+      if (r.ok) {
+        showStatus("You are signed in with GitHub. You can upload now.");
+      } else {
+        showStatus("Please sign in with GitHub to upload files.");
+      }
+    } catch (e) {
+      console.warn("login-status check failed", e);
+      setLoggedInUI(false);
+      showStatus("Login status check failed. Please Sign in with GitHub.", true);
+    }
+  })();
 
   loginBtn.addEventListener('click', () => {
     window.location.href = WORKER_BASE_URL + "/login";
   });
 
   logoutBtn.addEventListener('click', () => {
-    alert("The access token is stored as an HttpOnly cookie on the Worker domain, so the page cannot clear it.\nClose the browser or use a private window to start a new session.");
+    alert("The access token is an HttpOnly cookie on the Worker domain, so this page cannot clear it.\nClose the browser or use a private window to start a new session.");
   });
 
-  /* Drag & Drop */
+  /* --------------- Drag & Drop --------------- */
   ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
     dropzone.addEventListener(evt, e => {
       e.preventDefault();
@@ -296,12 +321,19 @@
     selectedFile = file;
     fileName = file.name;
     showStatus(`Selected file: ${file.name}`);
-    uploadBtn.disabled = false;
+
+    // Solution B: respect login state
+    uploadBtn.disabled = !(loggedIn && !!selectedFile);
   }
 
+  /* --------------- Upload --------------- */
   uploadBtn.addEventListener('click', async () => {
     if (!selectedFile) {
       showStatus("No file selected.", true);
+      return;
+    }
+    if (!loggedIn) {
+      showStatus("You are not logged in. Click 'Sign in with GitHub' first.", true);
       return;
     }
 
@@ -350,7 +382,8 @@
     } catch (err) {
       showStatus("Unexpected error: " + (err?.message || err), true);
     } finally {
-      uploadBtn.disabled = false;
+      // re-enable only if still logged in
+      uploadBtn.disabled = !(loggedIn && !!selectedFile);
     }
   });
 
@@ -374,27 +407,24 @@
   }
 
   // ---- Better slug detection ----
-  // 1) If JSON -> read slug or displayName
-  // 2) If YAML -> naive regex to find slug: or displayName:
-  // 3) fallback to sanitized filename
   function bestEffortSlug(text, fileName) {
-    // try json
+    // try JSON
     try {
       const obj = JSON.parse(text);
       if (obj.slug) return sanitizeSlug(obj.slug);
       if (obj.displayName) return sanitizeSlug(obj.displayName);
     } catch (_) {
-      // not json, ignore
+      // not json
     }
 
-    // try very naive yaml regex (single-line capture)
+    // naive YAML regex
     const yamlSlug = /(?:^|\n)\s*slug\s*:\s*([^\n#]+)/i.exec(text)?.[1];
     if (yamlSlug) return sanitizeSlug(yamlSlug);
 
     const yamlName = /(?:^|\n)\s*displayName\s*:\s*([^\n#]+)/i.exec(text)?.[1];
     if (yamlName) return sanitizeSlug(yamlName);
 
-    // fallback filename
+    // fallback
     return sanitizeSlug(fileName.replace(/\.[^.]+$/, ''));
   }
 
