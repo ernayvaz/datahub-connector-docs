@@ -44,6 +44,11 @@
       font-size: 1.6rem;
       font-weight: 700;
     }
+    #userInfo {
+      margin-left: .75rem;
+      opacity: .85;
+      font-size: .9rem;
+    }
     .btn {
       display: inline-block;
       padding: .7rem 1.1rem;
@@ -89,6 +94,7 @@
       display: flex;
       gap: .75rem;
       flex-wrap: wrap;
+      align-items: center;
     }
     #dropzone {
       border: 3px dashed var(--accent);
@@ -177,6 +183,7 @@
       <a id="viewDocsBtn" class="btn ghost" target="_blank" rel="noopener">
         View Docs Site
       </a>
+      <span id="userInfo"></span>
     </div>
   </div>
 </header>
@@ -189,7 +196,7 @@
 
   <div id="controls">
     <button id="loginBtn" class="btn primary">Sign in with GitHub</button>
-    <button id="logoutBtn" class="btn secondary hidden">Clear Session (info)</button>
+    <button id="logoutBtn" class="btn secondary hidden">Logout</button>
   </div>
 
   <div id="dropzone">
@@ -234,35 +241,55 @@
   const commitMsgEl = document.getElementById('commitMsg');
   const fileInput   = document.getElementById('fileInput');
   const browseLink  = document.getElementById('browseLink');
+  const userInfoEl  = document.getElementById('userInfo');
 
   let selectedFile = null;
   let fileName     = null;
   let loggedIn     = false;
 
-  // --- login-aware UI controller
-  function setLoggedInUI(isLoggedIn) {
+  /* ---- Helpers ---- */
+  function setLoggedInUI(isLoggedIn, me) {
     loggedIn = isLoggedIn;
     loginBtn.classList.toggle('hidden', isLoggedIn);
     logoutBtn.classList.toggle('hidden', !isLoggedIn);
+    uploadBtn.disabled = !isLoggedIn || !selectedFile;
 
-    // Enable upload only if both 'loggedIn' and 'file selected'
-    const canUpload = isLoggedIn && !!selectedFile;
-    uploadBtn.disabled = !canUpload;
+    if (isLoggedIn && me && me.login) {
+      userInfoEl.textContent = `Signed in as ${me.login}${me.name ? " ("+me.name+")" : ""}`;
+    } else if (isLoggedIn) {
+      userInfoEl.textContent = `Signed in`;
+    } else {
+      userInfoEl.textContent = "";
+    }
   }
 
-  setLoggedInUI(false);
+  async function getLoginStatus() {
+    const r = await fetch(WORKER_BASE_URL + "/login-status", {
+      method: "GET",
+      credentials: "include"
+    });
+    if (!r.ok) return { logged_in: false };
+    return r.json();
+  }
 
-  // ---- Check login on page load (Solution B)
-  (async function checkLogin() {
+  async function getMe() {
+    const r = await fetch(WORKER_BASE_URL + "/me", {
+      method: "GET",
+      credentials: "include"
+    });
+    if (!r.ok) return null;
+    return r.json();
+  }
+
+  async function refreshLoginState() {
     try {
-      const r = await fetch(WORKER_BASE_URL + "/login-status", {
-        method: "GET",
-        credentials: "include"
-      });
-      setLoggedInUI(r.ok);
-      if (r.ok) {
+      const st = await getLoginStatus();
+      if (st.logged_in) {
+        const me = await getMe();
+        setLoggedInUI(true, me);
         showStatus("You are signed in with GitHub. You can upload now.");
       } else {
+        setLoggedInUI(false);
         showStatus("Please sign in with GitHub to upload files.");
       }
     } catch (e) {
@@ -270,14 +297,25 @@
       setLoggedInUI(false);
       showStatus("Login status check failed. Please Sign in with GitHub.", true);
     }
-  })();
+  }
 
+  /* ---- Init ---- */
+  refreshLoginState();
+
+  /* ---- Auth buttons ---- */
   loginBtn.addEventListener('click', () => {
     window.location.href = WORKER_BASE_URL + "/login";
   });
 
-  logoutBtn.addEventListener('click', () => {
-    alert("The access token is an HttpOnly cookie on the Worker domain, so this page cannot clear it.\nClose the browser or use a private window to start a new session.");
+  logoutBtn.addEventListener('click', async () => {
+    await fetch(WORKER_BASE_URL + "/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+    setLoggedInUI(false);
+    showStatus("Logged out.");
+    // İsterseniz sayfayı yenileyin:
+    // window.location.reload();
   });
 
   /* --------------- Drag & Drop --------------- */
@@ -322,7 +360,6 @@
     fileName = file.name;
     showStatus(`Selected file: ${file.name}`);
 
-    // Solution B: respect login state
     uploadBtn.disabled = !(loggedIn && !!selectedFile);
   }
 
@@ -366,9 +403,9 @@
           showStatus(`Upload failed: ${resp.status} ${resp.statusText}`, true, data);
         }
       } else {
-        setLoggedInUI(true);
+        const me = await getMe().catch(() => null);
+        setLoggedInUI(true, me);
 
-        // --- Improved guess URL ---
         const slug = bestEffortSlug(text, fileName);
         const guessedUrl = DOCS_BASE_URL + "connectors/" + slug + "/";
         showStatus(
@@ -382,7 +419,6 @@
     } catch (err) {
       showStatus("Unexpected error: " + (err?.message || err), true);
     } finally {
-      // re-enable only if still logged in
       uploadBtn.disabled = !(loggedIn && !!selectedFile);
     }
   });
@@ -408,23 +444,18 @@
 
   // ---- Better slug detection ----
   function bestEffortSlug(text, fileName) {
-    // try JSON
     try {
       const obj = JSON.parse(text);
       if (obj.slug) return sanitizeSlug(obj.slug);
       if (obj.displayName) return sanitizeSlug(obj.displayName);
-    } catch (_) {
-      // not json
-    }
+    } catch (_) {}
 
-    // naive YAML regex
     const yamlSlug = /(?:^|\n)\s*slug\s*:\s*([^\n#]+)/i.exec(text)?.[1];
     if (yamlSlug) return sanitizeSlug(yamlSlug);
 
     const yamlName = /(?:^|\n)\s*displayName\s*:\s*([^\n#]+)/i.exec(text)?.[1];
     if (yamlName) return sanitizeSlug(yamlName);
 
-    // fallback
     return sanitizeSlug(fileName.replace(/\.[^.]+$/, ''));
   }
 
