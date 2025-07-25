@@ -296,7 +296,7 @@
     selectedFile = file;
     fileName = file.name;
     showStatus(`Selected file: ${file.name}`);
-    uploadBtn.disabled = !loggedIn;
+    uploadBtn.disabled = false;
   }
 
   uploadBtn.addEventListener('click', async () => {
