@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../demo_crm_4/">
+        <link rel="prev" href="../demo_crm_3/">
       
       
-        <link rel="next" href="../no_slug_example/">
+        <link rel="next" href="../example/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Configuring the DemoCRM Connector - Data Hub Connector Docs</title>
+        <title>Configuring the Demo CRM 3 Connector - Data Hub Connector Docs</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuring-the-democrm-connector" class="md-skip">
+        <a href="#configuring-the-demo-crm-3-connector" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuring the DemoCRM Connector
+              Configuring the Demo CRM 3 Connector
             
           </span>
         </div>
@@ -321,29 +321,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../demo_crm_4/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Configuring the Demo CRM 3 Connector
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -361,7 +338,7 @@
   
   
   <span class="md-ellipsis">
-    Configuring the DemoCRM Connector
+    Configuring the Demo CRM 3 Connector
     
   </span>
   
@@ -374,7 +351,7 @@
   
   
   <span class="md-ellipsis">
-    Configuring the DemoCRM Connector
+    Configuring the Demo CRM 3 Connector
     
   </span>
   
@@ -433,6 +410,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#task-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task Parameters
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -466,6 +452,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuring the DemoCRM Connector
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -564,6 +573,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#task-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task Parameters
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -609,10 +627,11 @@
 
 
 
-<h1 id="configuring-the-democrm-connector">Configuring the DemoCRM Connector</h1>
+<h1 id="configuring-the-demo-crm-3-connector">Configuring the Demo CRM 3 Connector</h1>
 <h2 id="prerequisites">Prerequisites</h2>
 <ol>
-<li>Create an API key in DemoCRM.</li>
+<li>Sign in to Demo CRM and create an API key.</li>
+<li>Enable API access under Settings ▸ Integrations.</li>
 </ol>
 <h2 id="connector-setup">Connector Setup</h2>
 <p>Below table lists the fields shown in the connector configuration form.</p>
@@ -626,7 +645,7 @@
 <tbody>
 <tr>
 <td><strong>API Key</strong></td>
-<td>Token for requests</td>
+<td>Token copied from Demo CRM.</td>
 </tr>
 </tbody>
 </table>
@@ -648,7 +667,28 @@
 <td>String</td>
 <td></td>
 <td>abc123</td>
-<td>API key obtained from step 1</td>
+<td>API key generated in prerequisites.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="task-parameters">Task Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Technical Name</th>
+<th>Type</th>
+<th>Default</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>timeout</td>
+<td>Integer</td>
+<td>10000</td>
+<td>15000</td>
+<td>Request timeout in milliseconds.</td>
 </tr>
 </tbody>
 </table>
@@ -678,9 +718,14 @@
 <td>email</td>
 <td>String</td>
 </tr>
+<tr>
+<td></td>
+<td>created_at</td>
+<td>Timestamp</td>
+</tr>
 </tbody>
 </table>
-<p><em>Generated automatically — 2025-07-29T08:07:15.870912Z</em></p>
+<p><em>Generated automatically — 2025-07-29T08:07:16.053722Z</em></p>
 
 
 
