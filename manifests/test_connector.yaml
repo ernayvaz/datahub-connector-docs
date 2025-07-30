@@ -1,0 +1,21 @@
+slug: test_connector
+displayName: Test Connector
+long_description: "This connector is used as a test stub to verify automatic documentation generation."
+prereq_steps: []
+setup_fields:
+  - name: API Key
+    description: "API key to authenticate with the test API."
+auth_params:
+  - name: api_key
+    type: String
+    default: ""
+    example: "abc123"
+    description: "API key provided by the user for authentication."
+task_params: []
+tables:
+  - name: customers
+    description: "Table containing customer records."
+    columns:
+      - name: id
+        type: String
+        description: "Unique identifier for each customer." 

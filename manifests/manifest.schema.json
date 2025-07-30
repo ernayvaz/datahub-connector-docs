@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Connector Manifest",
+  "type": "object",
+  "required": ["slug", "displayName"],
+  "properties": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "long_description": {
+      "type": "string"
+    },
+    "prereq_steps": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "setup_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      },
+      "default": []
+    },
+    "auth_params": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": { "type": "string" },
+          "category": { "type": "string", "enum": ["Authentication", "Technical", "Other"] },
+          "type": { "type": "string" },
+          "default": {},
+          "example": {},
+          "description": { "type": "string" }
+        }
+      },
+      "default": []
+    },
+    "task_params": {
+      "type": "array",
+      "items": { "$ref": "#/properties/auth_params/items" },
+      "default": []
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "type"],
+              "properties": {
+                "name": { "type": "string" },
+                "type": { "type": "string" },
+                "description": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "default": []
+    },
+    "images": {
+      "type": "array",
+      "items": { "type": "string", "format": "uri" },
+      "default": []
+    },
+    "language": {
+      "type": "string",
+      "default": "en"
+    }
+  },
+  "additionalProperties": false
+} 

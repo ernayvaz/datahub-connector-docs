@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Connector Docs Search</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root{
+      --raynet-navy:#162B3C;
+      --raynet-red:#FF0055;
+      --raynet-bg:#F7F9FC;
+    }
+    body{font-family:system-ui, sans-serif;margin:0;padding:2rem;background:var(--raynet-bg);color:#222;}
+    h1{margin:0 0 1rem;text-align:center;color:var(--raynet-navy);} 
+    #searchBox{width:100%;max-width:480px;padding:.75rem 1rem;font-size:1rem;border:2px solid var(--raynet-navy);border-radius:8px;display:block;margin:1rem auto;outline:none;}
+    #searchBox:focus{border-color:var(--raynet-red);} 
+    #result{max-width:960px;margin:2rem auto;padding:1.25rem;background:#fff;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.08);}   
+  </style>
+</head>
+<body>
+  <h1>Search Connector Documentation</h1>
+  <input id="searchBox" type="text" placeholder="Enter connector slug, e.g. salesforce" />
+  <div id="result">Type a connector slug and press Enter.</div>
+
+<script>
+const API_BASE = location.origin.includes("github.io") ? "https://YOUR_API_DOMAIN" : "http://127.0.0.1:8001";
+const box=document.getElementById('searchBox');
+const res=document.getElementById('result');
+box.addEventListener('keypress',e=>{if(e.key==='Enter'){query(box.value.trim());}});
+async function query(slug){if(!slug)return;res.textContent="Loading…";
+  try{
+    const r=await fetch(`${API_BASE}/doc/${slug}?ai=true`);
+    if(!r.ok) throw new Error(r.status+" "+r.statusText);
+    const data=await r.json();
+    const html=marked.parse(data.markdown);
+    res.innerHTML=html;
+  }catch(err){res.textContent="Error: "+err;}
+}
+</script>
+</body>
+</html> 
