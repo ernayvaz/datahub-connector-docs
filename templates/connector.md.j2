@@ -1,5 +1,8 @@
 {# ---------- Raynet Connector Doc Template ---------- #}
-# Configuring the {{ displayName }} Connector
+{% set LB = "\n" %}
+# Configuring {{ displayName }}
+
+{{ long_description }}
 
 ## Prerequisites
 {% for step in prereq_steps -%}
@@ -16,7 +19,7 @@ Below table lists the fields shown in the connector configuration form.
 | Field | Description |
 |-------|-------------|
 {% for field in setup_fields -%}
-| **{{ field.name }}** | {{ field.description }} |
+| **{{ field.name }}** | {{ field.description or "⚠️ TODO" }} |
 {%- endfor %}
 {% if setup_fields|length == 0 %}
 | _(none)_ | |
@@ -28,7 +31,7 @@ Below table lists the fields shown in the connector configuration form.
 | Technical Name | Type | Default | Example | Description |
 |---------------|------|---------|---------|-------------|
 {% for p in auth_params -%}
-| {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description }} |
+| {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description or "⚠️ TODO" }} |
 {%- endfor %}
 {% if auth_params|length == 0 %}
 | _(none)_ | | | | |
@@ -39,7 +42,7 @@ Below table lists the fields shown in the connector configuration form.
 | Technical Name | Type | Default | Example | Description |
 |---------------|------|---------|---------|-------------|
 {%   for p in task_params -%}
-| {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description }} |
+| {{ p.name }} | {{ p.type }} | {{ p.default }} | {{ p.example }} | {{ p.description or "⚠️ TODO" }} |
 {%-   endfor %}
 {% endif %}
 

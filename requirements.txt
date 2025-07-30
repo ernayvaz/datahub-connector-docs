@@ -3,3 +3,10 @@ pyyaml
 mkdocs
 mkdocs-material
 mkdocs-awesome-pages-plugin
+openai
+jsonschema
+fastapi
+uvicorn
+requests
+redis
+structlog

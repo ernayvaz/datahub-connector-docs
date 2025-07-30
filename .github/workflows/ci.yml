@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install dev dependencies
+        run: |
+          pip install pytest ruff black
+
+      - name: Lint with ruff
+        run: ruff .
+
+      - name: Check formatting with black
+        run: black --check .
+
+      - name: Run tests
+        run: pytest --maxfail=1 --disable-warnings --quiet
+
+      - name: Validate manifest schema
+        run: |
+          python - << 'EOF'
+          import glob, json, sys
+          import yaml
+          from scripts.enrich_manifest import load_schema
+          from jsonschema import validate, ValidationError
+          schema = load_schema()
+          exit_code = 0
+          for f in glob.glob("manifests/*.*"):
+              try:
+                  data = yaml.safe_load(open(f, encoding="utf-8")) if f.endswith((".yaml",".yml")) else json.load(open(f, encoding="utf-8"))
+                  validate(instance=data, schema=schema)
+              except ValidationError as e:
+                  print(f"Schema validation failed for {f}: {e}")
+                  exit_code = 1
+          sys.exit(exit_code)
+          EOF
+
+      - name: Generate draft docs
+        run: |
+          export LLM_PROVIDER=internal
+          export LLM_ENDPOINT="${{ secrets.LLM_ENDPOINT }}"
+          export LLM_TOKEN="${{ secrets.LLM_TOKEN }}"
+          export APP_ENV=development
+          mkdir -p docs/drafts
+          for file in manifests/*.*; do
+            python scripts/generate_doc.py --draft --ai "$file"
+          done
+
+      - name: Upload draft docs
+        uses: actions/upload-artifact@v3
+        with:
+          name: draft-docs
+          path: docs/drafts
