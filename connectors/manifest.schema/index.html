@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../demo_crm_3/">
+        <link rel="prev" href="../example/">
       
       
-        <link rel="next" href="../example/">
+        <link rel="next" href="../no_slug_example/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Configuring Demo CRM 3 - Data Hub Connector Docs</title>
+        <title>Configuring - Data Hub Connector Docs</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuring-demo-crm-3" class="md-skip">
+        <a href="#configuring" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuring Demo CRM 3
+              Configuring
             
           </span>
         </div>
@@ -389,6 +389,52 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../demo_crm_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuring Demo CRM 3
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Configuring DemoCRM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -406,7 +452,7 @@
   
   
   <span class="md-ellipsis">
-    Configuring Demo CRM 3
+    Configuring
     
   </span>
   
@@ -419,7 +465,7 @@
   
   
   <span class="md-ellipsis">
-    Configuring Demo CRM 3
+    Configuring
     
   </span>
   
@@ -478,15 +524,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#task-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Task Parameters
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -520,52 +557,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../example/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Configuring DemoCRM
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../manifest.schema/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Configuring
-    
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -733,15 +724,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#task-parameters" class="md-nav__link">
-    <span class="md-ellipsis">
-      Task Parameters
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -787,16 +769,11 @@
 
 
 
-<h1 id="configuring-demo-crm-3">Configuring Demo CRM 3</h1>
+<h1 id="configuring">Configuring</h1>
 <h2 id="prerequisites">Prerequisites</h2>
-<ol>
-<li>
-<p>Sign in to Demo CRM and create an API key.</p>
-</li>
-<li>
-<p>Enable API access under Settings ▸ Integrations.</p>
-</li>
-</ol>
+<blockquote>
+<p><em>No special prerequisites.</em></p>
+</blockquote>
 <h2 id="connector-setup">Connector Setup</h2>
 <p>Below table lists the fields shown in the connector configuration form.</p>
 <table>
@@ -808,11 +785,12 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>API Key</strong></td>
-<td>Token copied from Demo CRM.</td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
+<p>| <em>(none)</em> | |</p>
 <h2 id="connector-parameters">Connector Parameters</h2>
 <h3 id="authentication">Authentication</h3>
 <table>
@@ -827,35 +805,15 @@
 </thead>
 <tbody>
 <tr>
-<td>api_key</td>
-<td>String</td>
 <td></td>
-<td>abc123</td>
-<td>API key generated in prerequisites.</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-<h3 id="task-parameters">Task Parameters</h3>
-<table>
-<thead>
-<tr>
-<th>Technical Name</th>
-<th>Type</th>
-<th>Default</th>
-<th>Example</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>timeout</td>
-<td>Integer</td>
-<td>10000</td>
-<td>15000</td>
-<td>Request timeout in milliseconds.</td>
-</tr>
-</tbody>
-</table>
+<p>| <em>(none)</em> | | | | |</p>
 <h2 id="extracted-data">Extracted Data</h2>
 <h3 id="tables">Tables</h3>
 <table>
@@ -868,28 +826,14 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>customers</strong></td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
 <td></td>
-<td>id</td>
-<td>String</td>
-</tr>
-<tr>
 <td></td>
-<td>email</td>
-<td>String</td>
-</tr>
-<tr>
 <td></td>
-<td>created_at</td>
-<td>Timestamp</td>
 </tr>
 </tbody>
 </table>
-<p><em>Generated automatically — 2025-07-30T11:19:40.816220Z</em></p>
+<p>| <em>(no tables)</em> | | |</p>
+<p><em>Generated automatically — 2025-07-30T11:19:40.243062Z</em></p>
 
 
 
